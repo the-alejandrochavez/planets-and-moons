@@ -7,7 +7,8 @@ import io.javalin.Javalin;
 public class MainDriver {
 
     public static void main(String[] args) {
-        // leave this code as is: if you change it you will most likely break the application
+        // leave this code as is: if you change it you will most likely break the
+        // application
         Javalin app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.bundledPlugins.enableCors(cors -> {
@@ -17,6 +18,6 @@ public class MainDriver {
             });
         });
         RequestMapper.setUpEndPoints(app);
-        app.start(7000);   
+        app.start(7000);
     }
 }

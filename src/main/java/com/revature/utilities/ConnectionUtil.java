@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionUtil {
-    
-    public static Connection createConnection() throws SQLException{
+
+    public static Connection createConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:sqlite:src/main/resources/planetarium.db");
     }
 
