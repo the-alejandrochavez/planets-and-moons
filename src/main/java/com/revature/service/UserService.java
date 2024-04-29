@@ -8,7 +8,7 @@ public class UserService {
 
 	private UserDao dao;
 
-	public UserService(UserDao dao){
+	public UserService(UserDao dao) {
 		this.dao = dao;
 	}
 
@@ -19,9 +19,9 @@ public class UserService {
 
 	public User register(User registerRequestData) {
 		// check that username and password are within acceptable length
-		if (registerRequestData.getUsername().length() <= 30 && registerRequestData.getPassword().length() <= 30){
+		if (registerRequestData.getUsername().length() <= 30 && registerRequestData.getPassword().length() <= 30) {
 			// if the lengths are acceptable check that the username is unique
-			if(dao.getUserByUsername(registerRequestData.getUsername()) == null){
+			if (dao.getUserByUsername(registerRequestData.getUsername()) == null) {
 				// if the username is unique go ahead and actually create the new user
 				UsernamePasswordAuthentication validUserData = new UsernamePasswordAuthentication();
 				validUserData.setUsername(registerRequestData.getUsername());
@@ -30,7 +30,8 @@ public class UserService {
 				return dao.createUser(validUserData);
 			}
 		}
-		// if the user data does not meet business or software requirements return a null object
+		// if the user data does not meet business or software requirements return a
+		// null object
 		return null;
 	}
 }
