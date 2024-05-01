@@ -39,7 +39,7 @@ public class MoonDao {
 		// TODO: implement
 		Moon moon = new Moon();
 		try (Connection connection = ConnectionUtil.createConnection()) {
-			String sql = "select * from planets where name = ?";
+			String sql = "select * from moons where name = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, moonName);
 			ResultSet rs = ps.executeQuery();
@@ -48,6 +48,7 @@ public class MoonDao {
 				moon.setName(rs.getString("name"));
 				moon.setMyPlanetId(rs.getInt("myPlanetId"));
 			}
+			System.out.println(moon + " HERE");
 			return moon;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
