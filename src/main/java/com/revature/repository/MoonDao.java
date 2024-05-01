@@ -37,12 +37,42 @@ public class MoonDao {
 
 	public Moon getMoonByName(String moonName) {
 		// TODO: implement
-		return null;
+		Moon moon = new Moon();
+		try (Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "select * from planets where name = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, moonName);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				moon.setId(rs.getInt("id"));
+				moon.setName(rs.getString("name"));
+				moon.setMyPlanetId(rs.getInt("myPlanetId"));
+			}
+			return moon;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 	public Moon getMoonById(int moonId) {
 		// TODO: implement
-		return null;
+		Moon moon = new Moon();
+		try (Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "select * from planets where id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, moonId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				moon.setId(rs.getInt("id"));
+				moon.setName(rs.getString("name"));
+				moon.setMyPlanetId(rs.getInt("myPlanetId"));
+			}
+			return moon;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 	public Moon createMoon(Moon m) {
@@ -69,6 +99,14 @@ public class MoonDao {
 
 	public boolean deleteMoonById(int moonId) {
 		// TODO: implement
+		try (Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "delete from planets where id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, moonId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		return false;
 	}
 

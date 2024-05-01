@@ -20,12 +20,15 @@ public class MoonService {
 
 	public Moon getMoonByName(int myPlanetId, String moonName) {
 		// TODO implement
+		if (moonName.length() <= 30) {
+			return dao.getMoonByName(moonName);
+		}
 		return null;
 	}
 
 	public Moon getMoonById(int myPlanetId, int moonId) {
 		// TODO Aimplement
-		return null;
+		return dao.getMoonById(moonId);
 	}
 
 	public Moon createMoon(Moon m) {
@@ -41,7 +44,7 @@ public class MoonService {
 
 	public boolean deleteMoonById(int moonId) {
 		// TODO implement
-		return false;
+		return dao.deleteMoonById(moonId);
 	}
 
 	public List<Moon> getMoonsFromPlanet(int myPlanetId) {
