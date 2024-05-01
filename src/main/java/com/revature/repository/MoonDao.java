@@ -16,7 +16,23 @@ public class MoonDao {
 
 	public List<Moon> getAllMoons() {
 		// TODO: implement
-		return null;
+		List<Moon> moons = new ArrayList<>();
+		try (Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "select * from moons";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Moon moon = new Moon();
+				moon.setId(rs.getInt("id"));
+				moon.setName(rs.getString("name"));
+				moon.setMyPlanetId(rs.getInt("myPlanetId"));
+				moons.add(moon);
+			}
+			return moons;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 	public Moon getMoonByName(String moonName) {
@@ -31,24 +47,24 @@ public class MoonDao {
 
 	public Moon createMoon(Moon m) {
 		// TODO: implement
-		try (Connection conn = ConnectionUtil.createConnection()) {
-			String sql = "insert into moons (name, myPlanetId) values (?, ?)";
-			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		Moon createdMoon = new Moon();
+		try (Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "insert into moons (name, myPlanetId) values (?,?)";
+			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, m.getName());
 			ps.setInt(2, m.getMyPlanetId());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			if (rs.next()) {
-				Moon moon = new Moon();
-				rs.getLong(1);
-				m.getName();
-				m.getMyPlanetId();
-				return moon;
+				createdMoon.setId(rs.getInt(1));
+				createdMoon.setName(m.getName());
+				createdMoon.setMyPlanetId(m.getMyPlanetId());
 			}
-		} catch (Exception e) {
+			return createdMoon;
+		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return new Moon();
 		}
-		return null;
 	}
 
 	public boolean deleteMoonById(int moonId) {
