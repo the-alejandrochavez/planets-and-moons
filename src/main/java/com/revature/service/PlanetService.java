@@ -20,7 +20,6 @@ public class PlanetService {
 	public Planet getPlanetByName(int ownerId, String planetName) {
 		// TODO Auto-generated method stub
 		if (planetName.length() <= 30) {
-			System.out.println("IM HEREEE");
 			return dao.getPlanetByName(planetName);
 		}
 		return null;
@@ -28,22 +27,26 @@ public class PlanetService {
 
 	public Planet getPlanetById(int ownerId, int planetId) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.getPlanetById(planetId);
 	}
 
 	public Planet createPlanet(int ownerId, Planet planet) {
-		// TODO Auto-generated method stub
 		if (planet.getName().length() <= 30) {
-			Planet validPlanet = new Planet();
-			validPlanet.setName(planet.getName());
-			validPlanet.setOwnerId(ownerId);
-			return dao.createPlanet(validPlanet);
+			if (getPlanetByName(ownerId, planet.getName()).getName() == null) {
+				Planet validPlanet = new Planet();
+				validPlanet.setName(planet.getName());
+				validPlanet.setOwnerId(ownerId);
+				return dao.createPlanet(validPlanet);
+			}
 		}
 		return null;
 	}
 
 	public boolean deletePlanetById(int ownerId, int planetId) {
 		// TODO Auto-generated method stub
-		return dao.deletePlanetById(planetId);
+		if (getPlanetById(ownerId, planetId).getOwnerId() == ownerId) {
+			return dao.deletePlanetById(planetId);
+		}
+		return false;
 	}
 }

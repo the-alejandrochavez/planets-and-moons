@@ -14,7 +14,7 @@ import com.revature.utilities.ConnectionUtil;
 public class PlanetDao {
 
 	public List<Planet> getAllPlanets() {
-		// TODO: implement
+		// TODO
 		List<Planet> planets = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			String sql = "select * from planets";
@@ -35,7 +35,6 @@ public class PlanetDao {
 	}
 
 	public Planet getPlanetByName(String planetName) {
-		// TODO: implement
 		Planet planet = new Planet();
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			String sql = "select * from planets where name = ?";
@@ -55,8 +54,22 @@ public class PlanetDao {
 	}
 
 	public Planet getPlanetById(int planetId) {
-		// TODO: implement
-		return null;
+		Planet planet = new Planet();
+		try (Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "select * from planets where id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, planetId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				planet.setId(rs.getInt("id"));
+				planet.setName(rs.getString("name"));
+				planet.setOwnerId(rs.getInt("ownerId"));
+			}
+			return planet;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 	public Planet createPlanet(Planet p) {
@@ -81,12 +94,11 @@ public class PlanetDao {
 	}
 
 	public boolean deletePlanetById(int planetId) {
-		// TODO Auto-generated method stub
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			String sql = "delete from planets where id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, planetId);
-			ps.executeQuery();
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
