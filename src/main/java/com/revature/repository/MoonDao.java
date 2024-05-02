@@ -8,14 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.exceptions.MoonFailException;
+// import com.revature.exceptions.MoonFailException;
 import com.revature.models.Moon;
 import com.revature.utilities.ConnectionUtil;
 
 public class MoonDao {
 
 	public List<Moon> getAllMoons(int ownerId) {
-		// TODO: implement
 		List<Moon> moons = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			String sql = "select * from moons m join planets p on m.myPlanetId = p.id where p.ownerId = ?";
@@ -37,7 +36,6 @@ public class MoonDao {
 	}
 
 	public Moon getMoonByName(int ownerId, String moonName) {
-		// TODO: implement
 		Moon moon = new Moon();
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			String sql = "select * from moons m join planets p on m.myPlanetId = p.id where p.ownerId = ? and m.name = ?";
@@ -58,7 +56,6 @@ public class MoonDao {
 	}
 
 	public Moon getMoonById(int ownerId, int moonId) {
-		// TODO: implement
 		Moon moon = new Moon();
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			String sql = "select * from moons m join planets p on m.myPlanetId = p.id where p.ownerId = ? and m.id = ?";
@@ -79,7 +76,6 @@ public class MoonDao {
 	}
 
 	public Moon createMoon(Moon m) {
-		// TODO: implement
 		Moon createdMoon = new Moon();
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			String sql = "insert into moons (name, myPlanetId) values (?,?)";
@@ -100,12 +96,12 @@ public class MoonDao {
 		}
 	}
 
-	public boolean deleteMoonById(int moonId) {
-		// TODO: implement
+	public boolean deleteMoonById(int ownerId, int moonId) {
 		try (Connection connection = ConnectionUtil.createConnection()) {
-			String sql = "delete from moons where id = ?";
+			String sql = "delete from moons where myPlanetId in (select id from planets where ownerId = ?) and id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, moonId);
+			ps.setInt(1, ownerId);
+			ps.setInt(2, moonId);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

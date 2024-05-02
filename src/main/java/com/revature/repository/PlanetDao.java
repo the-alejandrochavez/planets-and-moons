@@ -101,6 +101,11 @@ public class PlanetDao {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, planetId);
 			ps.executeUpdate();
+
+			String sql_moon = "delete from moons where myPlanetId = ?";
+			PreparedStatement ps_moon = connection.prepareStatement(sql_moon);
+			ps_moon.setInt(1, planetId);
+			ps_moon.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

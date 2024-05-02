@@ -41,17 +41,19 @@ public class MoonController {
 	}
 
 	public void createMoon(Context ctx) {
+		User u = ctx.sessionAttribute("user");
 		Moon m = ctx.bodyAsClass(Moon.class);
 
-		Moon outGoingMoon = moonService.createMoon(m);
+		Moon outGoingMoon = moonService.createMoon(u.getId(), m);
 
 		ctx.json(outGoingMoon).status(201);
 	}
 
 	public void deleteMoon(Context ctx) {
+		User u = ctx.sessionAttribute("user");
 		int moonId = ctx.pathParamAsClass("id", Integer.class).get();
 
-		moonService.deleteMoonById(moonId);
+		moonService.deleteMoonById(u.getId(), moonId);
 
 		ctx.json("Moon successfully deleted").status(202);
 	}

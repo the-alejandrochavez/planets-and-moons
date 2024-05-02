@@ -25,7 +25,7 @@ public class RequestMapper {
 	private static final PlanetService PlanetService = new PlanetService(PlanetDao);
 	private static final PlanetController planetController = new PlanetController(PlanetService);
 	private static final MoonDao MoonDao = new MoonDao();
-	private static final MoonService moonService = new MoonService(MoonDao);
+	private static final MoonService moonService = new MoonService(MoonDao, PlanetService);
 	private static final MoonController moonController = new MoonController(moonService);
 
 	public static void setUpEndPoints(Javalin app) {

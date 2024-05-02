@@ -18,7 +18,6 @@ public class PlanetService {
 	}
 
 	public Planet getPlanetByName(int ownerId, String planetName) {
-		// TODO Auto-generated method stub
 		if (planetName.length() <= 30) {
 			return dao.getPlanetByName(ownerId, planetName);
 		}
@@ -26,7 +25,6 @@ public class PlanetService {
 	}
 
 	public Planet getPlanetById(int ownerId, int planetId) {
-		// TODO Auto-generated method stub
 		return dao.getPlanetById(ownerId, planetId);
 	}
 
@@ -43,7 +41,6 @@ public class PlanetService {
 	}
 
 	public boolean deletePlanetById(int ownerId, int planetId) {
-		// TODO Auto-generated method stub
 		if (getPlanetById(ownerId, planetId).getOwnerId() == ownerId) {
 			return dao.deletePlanetById(planetId);
 		}

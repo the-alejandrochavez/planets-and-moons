@@ -8,18 +8,22 @@ import com.revature.repository.MoonDao;
 public class MoonService {
 
 	private MoonDao dao;
+	private PlanetService planetService;
 
-	public MoonService(MoonDao dao) {
+	public MoonService(MoonDao dao, PlanetService planetService) {
 		this.dao = dao;
+		this.planetService = planetService;
+	}
+
+	public MoonService(PlanetService planetService) {
+		this.planetService = planetService;
 	}
 
 	public List<Moon> getAllMoons(int ownerId) {
-		// TODO implement
 		return dao.getAllMoons(ownerId);
 	}
 
 	public Moon getMoonByName(int ownerId, String moonName) {
-		// TODO implement
 		if (moonName.length() <= 30) {
 			return dao.getMoonByName(ownerId, moonName);
 		}
@@ -27,24 +31,24 @@ public class MoonService {
 	}
 
 	public Moon getMoonById(int ownerId, int moonId) {
-		// TODO Aimplement
 		return dao.getMoonById(ownerId, moonId);
 	}
 
-	public Moon createMoon(Moon m) {
-		// TODO implement
-		if (m.getName().length() <= 30) {
-			Moon validMoon = new Moon();
-			validMoon.setName(m.getName());
-			validMoon.setMyPlanetId(m.getMyPlanetId());
-			return dao.createMoon(validMoon);
+	public Moon createMoon(int ownerId, Moon m) {
+		if (m.getName().length() <= 30 && planetService.getPlanetById(ownerId, m.getMyPlanetId()).getName() != null) {
+			if (getMoonByName(ownerId, m.getName()).getName() == null) {
+				Moon validMoon = new Moon();
+				validMoon.setName(m.getName());
+				validMoon.setMyPlanetId(m.getMyPlanetId());
+				return dao.createMoon(validMoon);
+			}
+
 		}
 		return null;
 	}
 
-	public boolean deleteMoonById(int moonId) {
-		// TODO implement
-		return dao.deleteMoonById(moonId);
+	public boolean deleteMoonById(int ownerId, int moonId) {
+		return dao.deleteMoonById(ownerId, moonId);
 	}
 
 	public List<Moon> getMoonsFromPlanet(int myPlanetId) {
