@@ -13,22 +13,22 @@ public class MoonService {
 		this.dao = dao;
 	}
 
-	public List<Moon> getAllMoons() {
+	public List<Moon> getAllMoons(int ownerId) {
 		// TODO implement
-		return dao.getAllMoons();
+		return dao.getAllMoons(ownerId);
 	}
 
-	public Moon getMoonByName(int myPlanetId, String moonName) {
+	public Moon getMoonByName(int ownerId, String moonName) {
 		// TODO implement
 		if (moonName.length() <= 30) {
-			return dao.getMoonByName(moonName);
+			return dao.getMoonByName(ownerId, moonName);
 		}
 		return null;
 	}
 
-	public Moon getMoonById(int myPlanetId, int moonId) {
+	public Moon getMoonById(int ownerId, int moonId) {
 		// TODO Aimplement
-		return dao.getMoonById(moonId);
+		return dao.getMoonById(ownerId, moonId);
 	}
 
 	public Moon createMoon(Moon m) {

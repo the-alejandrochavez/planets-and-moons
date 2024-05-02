@@ -161,7 +161,7 @@
                     orbitedPlanetInput.type = 'text';
                     orbitedPlanetInput.id = 'orbitedPlanetInput';
                     orbitedPlanetInput.name = 'Orbited Planet';
-                    orbitedPlanetInput.placeholder = 'Enter Orbited Planet';
+                    orbitedPlanetInput.placeholder = 'Enter Orbited Planet ID';
                     inputContainer.appendChild(orbitedPlanetInput);
 
                     let submitButton = document.createElement('button');
@@ -234,58 +234,106 @@
             }
 
             async function searchForPlanets() {
-                const planetName = document.getElementById('searchPlanetInput').value;
-                const response = await fetch(`http://localhost:7001/api/planet/name/${planetName}`, {
-                    credentials: 'include'
-                });
+                const planet = document.getElementById('searchPlanetInput').value;
 
-                if (planetName == "") {
-                    populateCelestialTable();
-                } else if (response.ok) {
-                    const data = await response.json();
-                    console.log(data + " HERE");
-                    // Clear the table before populating with search results
-                    document.getElementById('celestialTable').innerHTML = '<tr><th>Type</th><th>ID</th><th>Name</th><th>Owner</th></tr>';
-                    const table = document.getElementById('celestialTable');
-                    const row = table.insertRow();
-                    const typeCell = row.insertCell(0);
-                    const idCell = row.insertCell(1);
-                    const nameCell = row.insertCell(2);
-                    const ownerCell = row.insertCell(3);
-                    typeCell.textContent = 'planet';
-                    idCell.textContent = data.id;
-                    nameCell.textContent = data.name;
-                    ownerCell.textContent = data.ownerId;
+                if (!isNaN(planet)) {
+                    const response = await fetch(`http://localhost:7001/api/planet/id/${planet}`, {
+                        credentials: 'include'
+                    });
+
+                    if (planet == "") {
+                        populateCelestialTable();
+                    } else if (response.ok) {
+                        const data = await response.json();
+                        document.getElementById('celestialTable').innerHTML = '<tr><th>Type</th><th>ID</th><th>Name</th><th>Owner</th></tr>';
+                        const table = document.getElementById('celestialTable');
+                        const row = table.insertRow();
+                        const typeCell = row.insertCell(0);
+                        const idCell = row.insertCell(1);
+                        const nameCell = row.insertCell(2);
+                        const ownerCell = row.insertCell(3);
+                        typeCell.textContent = 'planet';
+                        idCell.textContent = data.id;
+                        nameCell.textContent = data.name;
+                        ownerCell.textContent = data.ownerId;
+                    } else {
+                        alert('Failed to search for planets. Please try again.');
+                    }
                 } else {
-                    alert('Failed to search for planets. Please try again.');
+                    const response = await fetch(`http://localhost:7001/api/planet/name/${planet}`, {
+                        credentials: 'include'
+                    });
+
+                    if (planet == "") {
+                        populateCelestialTable();
+                    } else if (response.ok) {
+                        const data = await response.json();
+                        document.getElementById('celestialTable').innerHTML = '<tr><th>Type</th><th>ID</th><th>Name</th><th>Owner</th></tr>';
+                        const table = document.getElementById('celestialTable');
+                        const row = table.insertRow();
+                        const typeCell = row.insertCell(0);
+                        const idCell = row.insertCell(1);
+                        const nameCell = row.insertCell(2);
+                        const ownerCell = row.insertCell(3);
+                        typeCell.textContent = 'planet';
+                        idCell.textContent = data.id;
+                        nameCell.textContent = data.name;
+                        ownerCell.textContent = data.ownerId;
+                    } else {
+                        alert('Failed to search for planets. Please try again.');
+                    }
                 }
             }
 
             async function searchForMoons() {
-                const moonName = document.getElementById('searchMoonInput').value;
-                const response = await fetch(`http://localhost:7001/api/moon/name/${moonName}`, {
-                    credentials: 'include'
-                });
+                const moon = document.getElementById('searchMoonInput').value;
 
-                if (moonName == "") {
-                    populateCelestialTable();
-                } else if (response.ok) {
-                    const data = await response.json();
-                    console.log(data);
-                    // Clear the table before populating with search results
-                    document.getElementById('celestialTable').innerHTML = '<tr><th>Type</th><th>ID</th><th>Name</th><th>Owner</th></tr>';
-                    const table = document.getElementById('celestialTable');
-                    const row = table.insertRow();
-                    const typeCell = row.insertCell(0);
-                    const idCell = row.insertCell(1);
-                    const nameCell = row.insertCell(2);
-                    const ownerCell = row.insertCell(3);
-                    typeCell.textContent = 'moon';
-                    idCell.textContent = data.id;
-                    nameCell.textContent = data.name;
-                    ownerCell.textContent = data.myPlanetId;
+                if (!isNaN(moon)) {
+                    const response = await fetch(`http://localhost:7001/api/moon/id/${moon}`, {
+                        credentials: 'include'
+                    });
+
+                    if (moon == "") {
+                        populateCelestialTable();
+                    } else if (response.ok) {
+                        const data = await response.json();
+                        document.getElementById('celestialTable').innerHTML = '<tr><th>Type</th><th>ID</th><th>Name</th><th>Owner</th></tr>';
+                        const table = document.getElementById('celestialTable');
+                        const row = table.insertRow();
+                        const typeCell = row.insertCell(0);
+                        const idCell = row.insertCell(1);
+                        const nameCell = row.insertCell(2);
+                        const ownerCell = row.insertCell(3);
+                        typeCell.textContent = 'moon';
+                        idCell.textContent = data.id;
+                        nameCell.textContent = data.name;
+                        ownerCell.textContent = data.myPlanetId;
+                    } else {
+                        alert('Failed to search for moons. Please try again.');
+                    }
                 } else {
-                    alert('Failed to search for moons. Please try again.');
+                    const response = await fetch(`http://localhost:7001/api/moon/name/${moon}`, {
+                        credentials: 'include'
+                    });
+
+                    if (moon == "") {
+                        populateCelestialTable();
+                    } else if (response.ok) {
+                        const data = await response.json();
+                        document.getElementById('celestialTable').innerHTML = '<tr><th>Type</th><th>ID</th><th>Name</th><th>Owner</th></tr>';
+                        const table = document.getElementById('celestialTable');
+                        const row = table.insertRow();
+                        const typeCell = row.insertCell(0);
+                        const idCell = row.insertCell(1);
+                        const nameCell = row.insertCell(2);
+                        const ownerCell = row.insertCell(3);
+                        typeCell.textContent = 'moon';
+                        idCell.textContent = data.id;
+                        nameCell.textContent = data.name;
+                        ownerCell.textContent = data.myPlanetId;
+                    } else {
+                        alert('Failed to search for moons. Please try again.');
+                    }
                 }
             }
 

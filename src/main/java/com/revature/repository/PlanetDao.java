@@ -13,12 +13,12 @@ import com.revature.utilities.ConnectionUtil;
 
 public class PlanetDao {
 
-	public List<Planet> getAllPlanets() {
-		// TODO
+	public List<Planet> getAllPlanets(int ownerId) {
 		List<Planet> planets = new ArrayList<>();
 		try (Connection connection = ConnectionUtil.createConnection()) {
-			String sql = "select * from planets";
+			String sql = "select * from planets where ownerId = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, ownerId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Planet planet = new Planet();
@@ -34,12 +34,13 @@ public class PlanetDao {
 		}
 	}
 
-	public Planet getPlanetByName(String planetName) {
+	public Planet getPlanetByName(int ownerId, String planetName) {
 		Planet planet = new Planet();
 		try (Connection connection = ConnectionUtil.createConnection()) {
-			String sql = "select * from planets where name = ?";
+			String sql = "select * from planets where ownerId = ? and name = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, planetName);
+			ps.setInt(1, ownerId);
+			ps.setString(2, planetName);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				planet.setId(rs.getInt("id"));
@@ -53,12 +54,13 @@ public class PlanetDao {
 		}
 	}
 
-	public Planet getPlanetById(int planetId) {
+	public Planet getPlanetById(int ownerId, int planetId) {
 		Planet planet = new Planet();
 		try (Connection connection = ConnectionUtil.createConnection()) {
-			String sql = "select * from planets where id = ?";
+			String sql = "select * from planets where ownerId = ? and id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, planetId);
+			ps.setInt(1, ownerId);
+			ps.setInt(2, planetId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				planet.setId(rs.getInt("id"));

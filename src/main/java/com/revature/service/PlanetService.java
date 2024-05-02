@@ -13,21 +13,21 @@ public class PlanetService {
 		this.dao = dao;
 	}
 
-	public List<Planet> getAllPlanets() {
-		return dao.getAllPlanets();
+	public List<Planet> getAllPlanets(int ownerId) {
+		return dao.getAllPlanets(ownerId);
 	}
 
 	public Planet getPlanetByName(int ownerId, String planetName) {
 		// TODO Auto-generated method stub
 		if (planetName.length() <= 30) {
-			return dao.getPlanetByName(planetName);
+			return dao.getPlanetByName(ownerId, planetName);
 		}
 		return null;
 	}
 
 	public Planet getPlanetById(int ownerId, int planetId) {
 		// TODO Auto-generated method stub
-		return dao.getPlanetById(planetId);
+		return dao.getPlanetById(ownerId, planetId);
 	}
 
 	public Planet createPlanet(int ownerId, Planet planet) {

@@ -15,7 +15,9 @@ public class PlanetController {
 	}
 
 	public void getAllPlanets(Context ctx) {
-		ctx.json(planetService.getAllPlanets()).status(200);
+		User u = ctx.sessionAttribute("user");
+
+		ctx.json(planetService.getAllPlanets(u.getId())).status(200);
 	}
 
 	public void getPlanetByName(Context ctx) {
@@ -47,6 +49,8 @@ public class PlanetController {
 	public void deletePlanet(Context ctx) {
 		User u = ctx.sessionAttribute("user");
 		int planetId = ctx.pathParamAsClass("id", Integer.class).get();
+
+		System.out.println(planetId);
 
 		planetService.deletePlanetById(u.getId(), planetId);
 		ctx.json("Planet successfully deleted").status(202);
