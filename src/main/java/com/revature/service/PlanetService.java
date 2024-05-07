@@ -30,7 +30,7 @@ public class PlanetService {
 
 	public Planet createPlanet(int ownerId, Planet planet) {
 		if (planet.getName().length() <= 30) {
-			if (getPlanetByName(ownerId, planet.getName()).getName() == null) {
+			if (getPlanetByName(ownerId, planet.getName()) == null) {
 				Planet validPlanet = new Planet();
 				validPlanet.setName(planet.getName());
 				validPlanet.setOwnerId(ownerId);

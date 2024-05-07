@@ -47,6 +47,9 @@ public class PlanetDao {
 				planet.setName(rs.getString("name"));
 				planet.setOwnerId(rs.getInt("ownerId"));
 			}
+			if (planet.getName() == null) {
+				return null;
+			}
 			return planet;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -66,6 +69,9 @@ public class PlanetDao {
 				planet.setId(rs.getInt("id"));
 				planet.setName(rs.getString("name"));
 				planet.setOwnerId(rs.getInt("ownerId"));
+			}
+			if (planet.getId() == 0) {
+				return null;
 			}
 			return planet;
 		} catch (SQLException e) {

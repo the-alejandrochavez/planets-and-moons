@@ -48,6 +48,9 @@ public class MoonDao {
 				moon.setName(rs.getString("name"));
 				moon.setMyPlanetId(rs.getInt("myPlanetId"));
 			}
+			if (moon.getName() == null) {
+				return null;
+			}
 			return moon;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -67,6 +70,9 @@ public class MoonDao {
 				moon.setId(rs.getInt("id"));
 				moon.setName(rs.getString("name"));
 				moon.setMyPlanetId(rs.getInt("myPlanetId"));
+			}
+			if (moon.getId() == 0) {
+				return null;
 			}
 			return moon;
 		} catch (SQLException e) {

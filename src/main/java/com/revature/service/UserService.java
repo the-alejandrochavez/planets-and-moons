@@ -18,17 +18,20 @@ public class UserService {
 
 	public User register(User registerRequestData) {
 		// check that username and password are within acceptable length
-		if (registerRequestData.getUsername().length() <= 30 && registerRequestData.getPassword().length() <= 30) {
-			// if the lengths are acceptable check that the username is unique
-			if (dao.getUserByUsername(registerRequestData.getUsername()) == null) {
-				// if the username is unique go ahead and actually create the new user
-				UsernamePasswordAuthentication validUserData = new UsernamePasswordAuthentication();
-				validUserData.setUsername(registerRequestData.getUsername());
-				validUserData.setPassword(registerRequestData.getPassword());
-				// make sure to return the new user's data
-				return dao.createUser(validUserData);
+		if (registerRequestData.getUsername().length() > 0 && registerRequestData.getPassword().length() > 0) {
+			if (registerRequestData.getUsername().length() <= 30 && registerRequestData.getPassword().length() <= 30) {
+				// if the lengths are acceptable check that the username is unique
+				if (dao.getUserByUsername(registerRequestData.getUsername()) == null) {
+					// if the username is unique go ahead and actually create the new user
+					UsernamePasswordAuthentication validUserData = new UsernamePasswordAuthentication();
+					validUserData.setUsername(registerRequestData.getUsername());
+					validUserData.setPassword(registerRequestData.getPassword());
+					// make sure to return the new user's data
+					return dao.createUser(validUserData);
+				}
 			}
 		}
+
 		// if the user data does not meet business or software requirements return a
 		// null object
 		return null;
