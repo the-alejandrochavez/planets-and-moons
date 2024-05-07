@@ -110,7 +110,23 @@ public class MoonDao {
 	}
 
 	public List<Moon> getMoonsFromPlanet(int planetId) {
-		// TODO: implement
-		return null;
+		List<Moon> moons = new ArrayList<>();
+		try (Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "select * from moons where myPlanetId = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, planetId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Moon moon = new Moon();
+				moon.setId(rs.getInt("id"));
+				moon.setName(rs.getString("name"));
+				moon.setMyPlanetId(rs.getInt("myPlanetId"));
+				moons.add(moon);
+			}
+			return moons;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 }

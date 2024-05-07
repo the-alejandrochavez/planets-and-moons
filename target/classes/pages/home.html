@@ -256,6 +256,26 @@
                         idCell.textContent = data.id;
                         nameCell.textContent = data.name;
                         ownerCell.textContent = data.ownerId;
+
+                        const moonResponse = await fetch(`http://localhost:7001/api/planet/${planet}/moon`, {
+                            credentials: 'include'
+                        });
+                        if (moonResponse.ok) {
+                            const moonData = await moonResponse.json();
+                            moonData.forEach(moon => {
+                                const moonRow = table.insertRow();
+                                const moonTypeCell = moonRow.insertCell(0);
+                                const moonIdCell = moonRow.insertCell(1);
+                                const moonNameCell = moonRow.insertCell(2);
+                                const moonOwnerCell = moonRow.insertCell(3);
+                                moonTypeCell.textContent = 'moon';
+                                moonIdCell.textContent = moon.id;
+                                moonNameCell.textContent = moon.name;
+                                moonOwnerCell.textContent = moon.myPlanetId;
+                            });
+                        } else {
+                            alert('Failed to fetch moons for the planet.');
+                        }
                     } else {
                         alert('Failed to search for planets. Please try again.');
                     }
@@ -279,6 +299,26 @@
                         idCell.textContent = data.id;
                         nameCell.textContent = data.name;
                         ownerCell.textContent = data.ownerId;
+
+                        const moonResponse = await fetch(`http://localhost:7001/api/planet/${data.id}/moon`, {
+                            credentials: 'include'
+                        });
+                        if (moonResponse.ok) {
+                            const moonData = await moonResponse.json();
+                            moonData.forEach(moon => {
+                                const moonRow = table.insertRow();
+                                const moonTypeCell = moonRow.insertCell(0);
+                                const moonIdCell = moonRow.insertCell(1);
+                                const moonNameCell = moonRow.insertCell(2);
+                                const moonOwnerCell = moonRow.insertCell(3);
+                                moonTypeCell.textContent = 'moon';
+                                moonIdCell.textContent = moon.id;
+                                moonNameCell.textContent = moon.name;
+                                moonOwnerCell.textContent = moon.myPlanetId;
+                            });
+                        } else {
+                            alert('Failed to fetch moons for the planet.');
+                        }
                     } else {
                         alert('Failed to search for planets. Please try again.');
                     }

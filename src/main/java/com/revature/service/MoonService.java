@@ -52,7 +52,6 @@ public class MoonService {
 	}
 
 	public List<Moon> getMoonsFromPlanet(int myPlanetId) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getMoonsFromPlanet(myPlanetId);
 	}
 }
