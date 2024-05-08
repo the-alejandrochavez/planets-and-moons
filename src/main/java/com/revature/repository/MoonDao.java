@@ -48,9 +48,20 @@ public class MoonDao {
 				moon.setName(rs.getString("name"));
 				moon.setMyPlanetId(rs.getInt("myPlanetId"));
 			}
-			if (moon.getName() == null) {
+
+			String p_sql = "select * from planets where ownerId = ? and name = ?";
+			PreparedStatement p_ps = connection.prepareStatement(p_sql);
+			p_ps.setInt(1, ownerId);
+			p_ps.setString(2, moonName);
+			ResultSet p_rs = p_ps.executeQuery();
+
+			if (p_rs.getString("name") == moon.getName()) {
 				return null;
 			}
+			if (p_rs.getString("name") != null) {
+				moon.setName(p_rs.getString("name"));
+			}
+
 			return moon;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -95,6 +106,7 @@ public class MoonDao {
 				createdMoon.setName(m.getName());
 				createdMoon.setMyPlanetId(m.getMyPlanetId());
 			}
+			System.out.println("I CREATED IT");
 			return createdMoon;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

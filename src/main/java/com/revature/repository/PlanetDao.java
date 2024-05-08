@@ -47,9 +47,20 @@ public class PlanetDao {
 				planet.setName(rs.getString("name"));
 				planet.setOwnerId(rs.getInt("ownerId"));
 			}
-			if (planet.getName() == null) {
+
+			String m_sql = "select * from moons m join planets p on m.myPlanetId = p.id where p.ownerId = ? and m.name = ?";
+			PreparedStatement m_ps = connection.prepareStatement(m_sql);
+			m_ps.setInt(1, ownerId);
+			m_ps.setString(2, planetName);
+			ResultSet m_rs = m_ps.executeQuery();
+
+			if (m_rs.getString("name") == planet.getName()) {
 				return null;
 			}
+			if (m_rs.getString("name") != null) {
+				planet.setName(m_rs.getString("name"));
+			}
+
 			return planet;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

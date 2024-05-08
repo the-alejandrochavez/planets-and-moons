@@ -35,8 +35,9 @@ public class MoonService {
 	}
 
 	public Moon createMoon(int ownerId, Moon m) {
-		if (m.getName().length() <= 30 && planetService.getPlanetById(ownerId, m.getMyPlanetId()).getName() != null) {
-			if (getMoonByName(ownerId, m.getName()).getName() == null) {
+		if (m.getName().length() <= 30 && planetService.getPlanetById(ownerId, m.getMyPlanetId()).getName() != null && m
+				.getName().length() > 0) {
+			if (getMoonByName(ownerId, m.getName()) == null) {
 				Moon validMoon = new Moon();
 				validMoon.setName(m.getName());
 				validMoon.setMyPlanetId(m.getMyPlanetId());
