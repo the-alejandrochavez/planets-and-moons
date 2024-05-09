@@ -29,7 +29,7 @@ public class PlanetService {
 	}
 
 	public Planet createPlanet(int ownerId, Planet planet) {
-		if (planet.getName().length() <= 30 && planet.getName().length() > 0) {
+		if (planet.getName().length() <= 30 && planet.getName().length() > 0 && !planet.getName().trim().isEmpty()) {
 			if (getPlanetByName(ownerId, planet.getName()) == null) {
 				Planet validPlanet = new Planet();
 				validPlanet.setName(planet.getName());
