@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlanetDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PlanetsAndMoons</a> &gt; <a href="index.source.html" class="el_package">com.revature.repository</a> &gt; <span class="el_source">PlanetDao.java</span></div><h1>PlanetDao.java</h1><pre class="source lang-java linenums">package com.revature.repository;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.revature.models.Planet;
+import com.revature.utilities.ConnectionUtil;
+
+<span class="fc" id="L14">public class PlanetDao {</span>
+
+	public List&lt;Planet&gt; getAllPlanets(int ownerId) {
+<span class="fc" id="L17">		List&lt;Planet&gt; planets = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L18">		try (Connection connection = ConnectionUtil.createConnection()) {</span>
+<span class="fc" id="L19">			String sql = &quot;select * from planets where ownerId = ?&quot;;</span>
+<span class="fc" id="L20">			PreparedStatement ps = connection.prepareStatement(sql);</span>
+<span class="fc" id="L21">			ps.setInt(1, ownerId);</span>
+<span class="fc" id="L22">			ResultSet rs = ps.executeQuery();</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L24">				Planet planet = new Planet();</span>
+<span class="fc" id="L25">				planet.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L26">				planet.setName(rs.getString(&quot;name&quot;));</span>
+<span class="fc" id="L27">				planet.setOwnerId(rs.getInt(&quot;ownerId&quot;));</span>
+<span class="fc" id="L28">				planets.add(planet);</span>
+<span class="fc" id="L29">			}</span>
+<span class="fc" id="L30">			return planets;</span>
+<span class="nc" id="L31">		} catch (SQLException e) {</span>
+<span class="nc" id="L32">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L33">			return null;</span>
+		}
+	}
+
+	public Planet getPlanetByName(int ownerId, String planetName) {
+<span class="fc" id="L38">		Planet planet = new Planet();</span>
+<span class="fc" id="L39">		try (Connection connection = ConnectionUtil.createConnection()) {</span>
+<span class="fc" id="L40">			String sql = &quot;select * from planets where ownerId = ? and name = ?&quot;;</span>
+<span class="fc" id="L41">			PreparedStatement ps = connection.prepareStatement(sql);</span>
+<span class="fc" id="L42">			ps.setInt(1, ownerId);</span>
+<span class="fc" id="L43">			ps.setString(2, planetName);</span>
+<span class="fc" id="L44">			ResultSet rs = ps.executeQuery();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L46">				planet.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L47">				planet.setName(rs.getString(&quot;name&quot;));</span>
+<span class="fc" id="L48">				planet.setOwnerId(rs.getInt(&quot;ownerId&quot;));</span>
+			}
+
+<span class="fc" id="L51">			String m_sql = &quot;select * from moons m join planets p on m.myPlanetId = p.id where p.ownerId = ? and m.name = ?&quot;;</span>
+<span class="fc" id="L52">			PreparedStatement m_ps = connection.prepareStatement(m_sql);</span>
+<span class="fc" id="L53">			m_ps.setInt(1, ownerId);</span>
+<span class="fc" id="L54">			m_ps.setString(2, planetName);</span>
+<span class="fc" id="L55">			ResultSet m_rs = m_ps.executeQuery();</span>
+
+<span class="fc bfc" id="L57" title="All 2 branches covered.">			if (m_rs.getString(&quot;name&quot;) == planet.getName()) {</span>
+<span class="fc" id="L58">				return null;</span>
+			}
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">			if (m_rs.getString(&quot;name&quot;) != null) {</span>
+<span class="nc" id="L61">				planet.setName(m_rs.getString(&quot;name&quot;));</span>
+			}
+
+<span class="fc" id="L64">			return planet;</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">		} catch (SQLException e) {</span>
+<span class="nc" id="L66">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L67">			return null;</span>
+		}
+	}
+
+	public Planet getPlanetById(int ownerId, int planetId) {
+<span class="fc" id="L72">		Planet planet = new Planet();</span>
+<span class="fc" id="L73">		try (Connection connection = ConnectionUtil.createConnection()) {</span>
+<span class="fc" id="L74">			String sql = &quot;select * from planets where ownerId = ? and id = ?&quot;;</span>
+<span class="fc" id="L75">			PreparedStatement ps = connection.prepareStatement(sql);</span>
+<span class="fc" id="L76">			ps.setInt(1, ownerId);</span>
+<span class="fc" id="L77">			ps.setInt(2, planetId);</span>
+<span class="fc" id="L78">			ResultSet rs = ps.executeQuery();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">			while (rs.next()) {</span>
+<span class="fc" id="L80">				planet.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L81">				planet.setName(rs.getString(&quot;name&quot;));</span>
+<span class="fc" id="L82">				planet.setOwnerId(rs.getInt(&quot;ownerId&quot;));</span>
+			}
+<span class="fc bfc" id="L84" title="All 2 branches covered.">			if (planet.getId() == 0) {</span>
+<span class="fc" id="L85">				return null;</span>
+			}
+<span class="fc" id="L87">			return planet;</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">		} catch (SQLException e) {</span>
+<span class="nc" id="L89">			System.out.println(e.getMessage());</span>
+<span class="nc" id="L90">			return null;</span>
+		}
+	}
+
+	public Planet createPlanet(Planet p) {
+<span class="fc" id="L95">		Planet createdPlanet = new Planet();</span>
+<span class="fc" id="L96">		try (Connection connection = ConnectionUtil.createConnection()) {</span>
+<span class="fc" id="L97">			String sql = &quot;insert into planets (name, ownerId) values (?, ?)&quot;;</span>
+<span class="fc" id="L98">			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);</span>
+<span class="fc" id="L99">			ps.setString(1, p.getName());</span>
+<span class="fc" id="L100">			ps.setInt(2, p.getOwnerId());</span>
+<span class="fc" id="L101">			ps.executeUpdate();</span>
+<span class="fc" id="L102">			ResultSet rs = ps.getGeneratedKeys();</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">			if (rs.next()) {</span>
+<span class="fc" id="L104">				createdPlanet.setId(rs.getInt(1));</span>
+<span class="fc" id="L105">				createdPlanet.setName(p.getName());</span>
+<span class="fc" id="L106">				createdPlanet.setOwnerId(p.getOwnerId());</span>
+			}
+<span class="fc" id="L108">			return createdPlanet;</span>
+<span class="fc" id="L109">		} catch (SQLException e) {</span>
+<span class="fc" id="L110">			System.out.println(e.getMessage());</span>
+<span class="fc" id="L111">			return null;</span>
+		}
+	}
+
+	public boolean deletePlanetById(int planetId) {
+<span class="fc" id="L116">		try (Connection connection = ConnectionUtil.createConnection()) {</span>
+<span class="fc" id="L117">			String sql = &quot;delete from planets where id = ?&quot;;</span>
+<span class="fc" id="L118">			PreparedStatement ps = connection.prepareStatement(sql);</span>
+<span class="fc" id="L119">			ps.setInt(1, planetId);</span>
+<span class="fc" id="L120">			int rowsAffected = ps.executeUpdate();</span>
+
+<span class="fc" id="L122">			String sql_moon = &quot;delete from moons where myPlanetId = ?&quot;;</span>
+<span class="fc" id="L123">			PreparedStatement ps_moon = connection.prepareStatement(sql_moon);</span>
+<span class="fc" id="L124">			ps_moon.setInt(1, planetId);</span>
+<span class="fc" id="L125">			ps_moon.executeUpdate();</span>
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">			if(rowsAffected &gt; 0) {</span>
+<span class="fc" id="L128">				return true;</span>
+			}
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">		} catch (SQLException e) {</span>
+<span class="nc" id="L131">			System.out.println(e.getMessage());</span>
+<span class="fc" id="L132">		}</span>
+<span class="fc" id="L133">		return false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

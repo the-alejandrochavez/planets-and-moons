@@ -106,11 +106,10 @@ public class MoonDao {
 				createdMoon.setName(m.getName());
 				createdMoon.setMyPlanetId(m.getMyPlanetId());
 			}
-			System.out.println("I CREATED IT");
 			return createdMoon;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			return new Moon();
+			return null;
 		}
 	}
 
@@ -120,7 +119,10 @@ public class MoonDao {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, ownerId);
 			ps.setInt(2, moonId);
-			ps.executeUpdate();
+			int rowsAffected = ps.executeUpdate();
+			if(rowsAffected > 0) {
+				return true;
+			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

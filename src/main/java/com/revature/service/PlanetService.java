@@ -42,6 +42,7 @@ public class PlanetService {
 
 	public boolean deletePlanetById(int ownerId, int planetId) {
 		if (getPlanetById(ownerId, planetId).getOwnerId() == ownerId) {
+			System.out.println(dao.deletePlanetById(planetId));
 			return dao.deletePlanetById(planetId);
 		}
 		return false;

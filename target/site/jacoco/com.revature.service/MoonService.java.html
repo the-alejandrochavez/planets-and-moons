@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MoonService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PlanetsAndMoons</a> &gt; <a href="index.source.html" class="el_package">com.revature.service</a> &gt; <span class="el_source">MoonService.java</span></div><h1>MoonService.java</h1><pre class="source lang-java linenums">package com.revature.service;
+
+import java.util.List;
+
+import com.revature.models.Moon;
+import com.revature.repository.MoonDao;
+
+public class MoonService {
+
+	private MoonDao dao;
+	private PlanetService planetService;
+
+<span class="nc" id="L13">	public MoonService(MoonDao dao, PlanetService planetService) {</span>
+<span class="nc" id="L14">		this.dao = dao;</span>
+<span class="nc" id="L15">		this.planetService = planetService;</span>
+<span class="nc" id="L16">	}</span>
+
+<span class="nc" id="L18">	public MoonService(PlanetService planetService) {</span>
+<span class="nc" id="L19">		this.planetService = planetService;</span>
+<span class="nc" id="L20">	}</span>
+
+	public List&lt;Moon&gt; getAllMoons(int ownerId) {
+<span class="nc" id="L23">		return dao.getAllMoons(ownerId);</span>
+	}
+
+	public Moon getMoonByName(int ownerId, String moonName) {
+<span class="nc bnc" id="L27" title="All 2 branches missed.">		if (moonName.length() &lt;= 30) {</span>
+<span class="nc" id="L28">			return dao.getMoonByName(ownerId, moonName);</span>
+		}
+<span class="nc" id="L30">		return null;</span>
+	}
+
+	public Moon getMoonById(int ownerId, int moonId) {
+<span class="nc" id="L34">		return dao.getMoonById(ownerId, moonId);</span>
+	}
+
+	public Moon createMoon(int ownerId, Moon m) {
+<span class="nc bnc" id="L38" title="All 4 branches missed.">		if (m.getName().length() &lt;= 30 &amp;&amp; planetService.getPlanetById(ownerId, m.getMyPlanetId()).getName() != null &amp;&amp; m</span>
+<span class="nc bnc" id="L39" title="All 4 branches missed.">				.getName().length() &gt; 0 &amp;&amp; !m.getName().trim().isEmpty()) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">			if (getMoonByName(ownerId, m.getName()) == null) {</span>
+<span class="nc" id="L41">				Moon validMoon = new Moon();</span>
+<span class="nc" id="L42">				validMoon.setName(m.getName());</span>
+<span class="nc" id="L43">				validMoon.setMyPlanetId(m.getMyPlanetId());</span>
+<span class="nc" id="L44">				return dao.createMoon(validMoon);</span>
+			}
+
+		}
+<span class="nc" id="L48">		return null;</span>
+	}
+
+	public boolean deleteMoonById(int ownerId, int moonId) {
+<span class="nc" id="L52">		return dao.deleteMoonById(ownerId, moonId);</span>
+	}
+
+	public List&lt;Moon&gt; getMoonsFromPlanet(int myPlanetId) {
+<span class="nc" id="L56">		return dao.getMoonsFromPlanet(myPlanetId);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

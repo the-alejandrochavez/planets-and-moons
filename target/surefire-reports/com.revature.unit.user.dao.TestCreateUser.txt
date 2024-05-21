@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: com.revature.unit.user.dao.TestCreateUser
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.022 s <<< FAILURE! -- in com.revature.unit.user.dao.TestCreateUser
+com.revature.unit.user.dao.TestCreateUser.testCreateUser -- Time elapsed: 0.007 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.revature.models.User.getUsername()" because "actualUser" is null
+	at com.revature.unit.user.dao.TestCreateUser.testCreateUser(TestCreateUser.java:38)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

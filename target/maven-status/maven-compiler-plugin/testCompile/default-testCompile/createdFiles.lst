@@ -1,0 +1,5 @@
+com/revature/unit/planet/dao/TestGetPlanetById.class
+com/revature/unit/planet/dao/TestGetPlanetByName.class
+com/revature/unit/planet/dao/TestCreatePlanet.class
+com/revature/unit/planet/dao/TestGetAllPlanets.class
+com/revature/unit/planet/dao/TestDeletePlanetById.class

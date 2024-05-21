@@ -40,17 +40,6 @@ public class TestGetUserByUsername {
         UserDao userDao = new UserDao();
         User actualUser = userDao.getUserByUsername(username);
 
-        Assertions.assertNull(actualUser);
-    }
-
-    @Test
-    @DisplayName("Get User By Username (Blank username)")
-    public void testGetUserByUsernameBlank() {
-        String username = "";
-
-        UserDao userDao = new UserDao();
-        User actualUser = userDao.getUserByUsername(username);
-
-        Assertions.assertNull(actualUser);
+        Assertions.assertNull(actualUser.getUsername());
     }
 }

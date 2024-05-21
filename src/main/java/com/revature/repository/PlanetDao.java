@@ -108,7 +108,7 @@ public class PlanetDao {
 			return createdPlanet;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			return new Planet();
+			return null;
 		}
 	}
 
@@ -117,12 +117,16 @@ public class PlanetDao {
 			String sql = "delete from planets where id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, planetId);
-			ps.executeUpdate();
+			int rowsAffected = ps.executeUpdate();
 
 			String sql_moon = "delete from moons where myPlanetId = ?";
 			PreparedStatement ps_moon = connection.prepareStatement(sql_moon);
 			ps_moon.setInt(1, planetId);
 			ps_moon.executeUpdate();
+
+			if(rowsAffected > 0) {
+				return true;
+			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
